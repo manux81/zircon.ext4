@@ -144,6 +144,7 @@ typedef struct vfs_query_info {
     char name[];        // Does not include null-terminator.
 } vfs_query_info_t;
 
+#define VFS_TYPE_EXT4FS 0xce694d21
 #define VFS_TYPE_BLOBFS 0x9e694d21
 #define VFS_TYPE_MINFS 0x6e694d21
 

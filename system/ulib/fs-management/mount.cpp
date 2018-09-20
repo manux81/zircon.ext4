@@ -229,6 +229,8 @@ zx_status_t Mounter::MountFat(unique_fd device, const mount_options_t& options, 
 zx_status_t Mounter::Mount(unique_fd device, disk_format_t format, const mount_options_t& options,
                            LaunchCallback cb) {
     switch (format) {
+    case DISK_FORMAT_EXT4:
+	return MountNativeFs("/boot/bin/ext4", fbl::move(device), options, cb);
     case DISK_FORMAT_MINFS:
         return MountNativeFs("/boot/bin/minfs", fbl::move(device), options, cb);
     case DISK_FORMAT_BLOBFS:
@@ -304,6 +306,10 @@ disk_format_t detect_disk_format(int fd) {
 
     if (!memcmp(data, blobfs_magic, sizeof(blobfs_magic))) {
         return DISK_FORMAT_BLOBFS;
+    }
+
+    if ((data[1080] == 0x53 && data[1081] == 0xEF)) {
+	return DISK_FORMAT_EXT4;
     }
 
     if ((data[510] == 0x55 && data[511] == 0xAA)) {

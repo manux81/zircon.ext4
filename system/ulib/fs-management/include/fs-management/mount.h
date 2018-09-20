@@ -29,6 +29,7 @@ typedef enum disk_format_type {
     DISK_FORMAT_BLOBFS,
     DISK_FORMAT_FVM,
     DISK_FORMAT_ZXCRYPT,
+    DISK_FORMAT_EXT4,
     DISK_FORMAT_COUNT_,
 } disk_format_t;
 
@@ -40,7 +41,8 @@ static const char* disk_format_string_[DISK_FORMAT_COUNT_] = {
         [DISK_FORMAT_FAT] = "fat",
         [DISK_FORMAT_BLOBFS] = "blobfs",
         [DISK_FORMAT_FVM] = "fvm",
-        [DISK_FORMAT_ZXCRYPT] = "zxcrypt"};
+        [DISK_FORMAT_ZXCRYPT] = "zxcrypt",
+        [DISK_FORMAT_EXT4] = "ext4"};
 
 static inline const char* disk_format_string(disk_format_t fs_type) {
     return disk_format_string_[fs_type];
@@ -71,6 +73,7 @@ static const uint8_t zxcrypt_magic[16] = {
     0x5f, 0xe8, 0xf8, 0x00, 0xb3, 0x6d, 0x11, 0xe7,
     0x80, 0x7a, 0x78, 0x63, 0x72, 0x79, 0x70, 0x74,
 };
+
 
 disk_format_t detect_disk_format(int fd);
 
